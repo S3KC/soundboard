@@ -19,8 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () async {
             print(':heart_eyes:');
             final player = AudioPlayer(); // Create a player
-            await player.setUrl(// Load a URL
-                'https://samplelib.com/lib/preview/mp3/sample-3s.mp3'); // Schemes: (https: | file: | asset: )
+            await player.setAsset(// Load a URL
+                'style.mp3'); // Schemes: (https: | file: | asset: )
             player.play();
           },
         ),
@@ -122,8 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () async {
             print('OOOOOOOOOOOOOOOOOOOOOOOOA');
             final player = AudioPlayer(); // Create a player
-            await player.setUrl(// Load a URL
-                'https://samplelib.com/lib/preview/mp3/sample-3s.mp3'); // Schemes: (https: | file: | asset: )
+            await player.setAsset(// Load a URL
+                'EMU.mp3'); // Schemes: (https: | file: | asset: )
             player.play();
           },
         ),
