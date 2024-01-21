@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:soundboard/ui/tabs/faq.dart';
 import 'package:soundboard/ui/tabs/home.dart';
 import 'package:soundboard/ui/tabs/settings.dart';
+import 'package:soundboard/ui/new_recording.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key, required this.title});
@@ -24,6 +25,7 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  Widget home = HomeScreen();
 
   @override
   void initState() {
@@ -58,7 +60,7 @@ class _DashboardPageState extends State<DashboardPage>
       body: TabBarView(
         controller: _tabController,
         children: [
-          HomeScreen(),
+          home,
           SettingsScreen(),
           FAQScreen(),
         ],
@@ -79,6 +81,15 @@ class _DashboardPageState extends State<DashboardPage>
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () async {
+          await Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => NewRecording(),
+          ));
+          setState(() => home = HomeScreen());
+        },
       ),
     );
   }

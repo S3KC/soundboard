@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:localstorage/localstorage.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,6 +10,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final LocalStorage storage = LocalStorage('soundboard.json');
+  List sounds = [];
+
+  @override
+  void initState() {
+    super.initState();
+    setupStorage();
+  }
+
+  void setupStorage() async {
+    await storage.ready;
+    var value = storage.getItem('sounds');
+    setState(() {
+      sounds = value == null ? [] : value as List;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var images = [
@@ -155,6 +173,22 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     ]; //gku
+
+    for (var sound in sounds) {
+      var placeholderImageUrl = "https://placehold.co/300x300.png?text=${Uri.encodeComponent(sound['title'] ?? 'No Title')}";
+      images.add(
+        Ink.image(
+          image: NetworkImage(placeholderImageUrl),
+          child: InkWell(
+            onTap: () async {
+              final player = AudioPlayer();
+              await player.setUrl(sound['audio']);
+              player.play();
+            },
+          ),
+        ),
+      );
+    }
 
     return GridView.count(crossAxisCount: 2, children: images);
   }
